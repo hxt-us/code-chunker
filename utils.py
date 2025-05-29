@@ -1,13 +1,13 @@
 from transformers import AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained(
+def count_tokens(string: str, encoding_name: str, add_special: bool = False) -> int:
+
+    tokenizer = AutoTokenizer.from_pretrained(
     "Salesforce/SFR-Embedding-Code-400M_R",
     trust_remote_code=True
 )
-
-def count_tokens(text: str, add_special: bool = False) -> int:
     tokens = tokenizer.encode(
-        text,
+        string,
         add_special_tokens=add_special,
         truncation=False,
         max_length=None
