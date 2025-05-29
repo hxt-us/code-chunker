@@ -6,11 +6,6 @@ tokenizer = AutoTokenizer.from_pretrained(
 )
 
 def count_tokens(text: str, add_special: bool = False) -> int:
-    """
-    Trả về số token theo tokenizer của model embedding.
-    
-    add_special: nếu True thì bao gồm các token đặc biệt (CLS, SEP, ...)
-    """
     tokens = tokenizer.encode(
         text,
         add_special_tokens=add_special,
