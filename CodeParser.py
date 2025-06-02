@@ -20,7 +20,14 @@ class CodeParser:
             "tsx": "typescript",
             "php": "php",
             "rb": "ruby",
-            "go": "go"
+            "go": "go",
+            "java": "java",
+            "cpp": "cpp",
+            "cc": "cpp",
+            "cxx": "cpp",
+            "c": "c",
+            "h": "cpp",
+            "sql": "sql"
         }
         if file_extensions is None:
             self.language_names = []
@@ -48,6 +55,10 @@ class CodeParser:
                             logging.info(f"Updating existing repository for {language}")
                             update_command = f"cd {repo_path} && git pull"
                             subprocess.run(update_command, shell=True, check=True)
+                        elif language == 'sql':
+                            sql_repos = "https://github.com/m-novikov/tree-sitter-sql",
+                            clone_command = f"{sql_repos} {repo_path}"
+                            subprocess.run(clone_command, shell=True, check=True)
                         else:
                             logging.info(f"Cloning repository for {language}")
                             clone_command = f"git clone https://github.com/tree-sitter/tree-sitter-{language} {repo_path}"
@@ -187,6 +198,46 @@ class CodeParser:
                 'struct_type': 'Struct',
                 'interface_type': 'Interface',
                 'package_clause': 'Package'
+            },
+            'java': {
+                'package_declaration': 'Package',
+                'class_declaration': 'Class',
+                'interface_declaration': 'Interface',
+                'enum_declaration': 'Enum',
+                'method_declaration': 'Method',
+                'constructor_declaration': 'Constructor',
+                'field_declaration': 'Field',
+            },
+            'cpp': {
+                'preproc_include': 'Include',
+                'class_specifier': 'Class',
+                'struct_specifier': 'Struct',
+                'function_definition': 'Function',
+                'template_declaration': 'Template',
+            },
+            'c': {
+                'preproc_include': 'Include',
+                'preproc_define': 'Define',
+                'struct_specifier': 'Struct',
+                'function_definition': 'Function',
+                'typedef_declaration': 'Typedef',
+            },
+            'sql': {
+                # More generic node types that are likely to work across SQL parsers
+                'statement': 'Statement',
+                'select_statement': 'Select',
+                'insert_statement': 'Insert',
+                'update_statement': 'Update',
+                'delete_statement': 'Delete',
+                'create_table': 'Create Table',
+                'create_index': 'Create Index',
+                'create_view': 'Create View',
+                'alter_table': 'Alter Table',
+                'drop_statement': 'Drop',
+                'function_definition': 'Function',
+                'procedure_definition': 'Procedure',
+                'keyword': 'Keyword',
+                'identifier': 'Identifier',
             }
         }
 
@@ -225,6 +276,18 @@ class CodeParser:
                 'comment': 'Comment',
             },
             'go': {
+                'comment': 'Comment',
+            },
+            'java': {
+                'comment': 'Comment',
+            },
+            'cpp': {
+                'comment': 'Comment',
+            },
+            'c': {
+                'comment': 'Comment',
+            },
+            'sql': {
                 'comment': 'Comment',
             }
         }
